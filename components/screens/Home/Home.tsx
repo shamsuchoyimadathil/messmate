@@ -14,6 +14,33 @@ import Entypo from "@expo/vector-icons/Entypo";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import MModal from "@/components/ui/Modal";
 
+export const FoodTimes: FC<{ onClick?: (time?: string) => void }> = ({
+  onClick,
+}) => {
+  return (
+    <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+      <TouchableOpacity
+        style={styleSheet.food}
+        onPress={() => {
+          onClick?.("b");
+        }}
+        activeOpacity={0.8}
+      >
+        <Text style={styleSheet?.foodText}>B</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{ ...styleSheet.food, backgroundColor: "#ccc" }}
+        onPress={() => {
+          onClick?.("l");
+        }}
+        activeOpacity={0.8}
+      >
+        <Text style={styleSheet?.foodText}>L</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
 const ScheduleItem: FC = () => {
   const [showModal, setShowModal] = useState(false);
   return (
@@ -21,26 +48,7 @@ const ScheduleItem: FC = () => {
       {[...Array(3)]?.map((i, n) => (
         <View key={n} style={styleSheet?.item}>
           <Text style={styleSheet?.days}>Monday</Text>
-          <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-            <TouchableOpacity
-              style={styleSheet.food}
-              onPress={() => {
-                setShowModal(true);
-              }}
-              activeOpacity={0.8}
-            >
-              <Text style={styleSheet?.foodText}>B</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{ ...styleSheet.food, backgroundColor: "#ccc" }}
-              onPress={() => {
-                setShowModal(true);
-              }}
-              activeOpacity={0.8}
-            >
-              <Text style={styleSheet?.foodText}>L</Text>
-            </TouchableOpacity>
-          </View>
+          <FoodTimes onClick={()=> setShowModal(true)}/>
         </View>
       ))}
 
@@ -51,7 +59,7 @@ const ScheduleItem: FC = () => {
           </Text>
         </View>
       </MModal>
-{/* 
+      {/* 
       <Modal
         // visible={showModal}
         transparent={true}

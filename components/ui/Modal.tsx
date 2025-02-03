@@ -1,6 +1,13 @@
 import { Entypo } from "@expo/vector-icons";
 import React, { FC, ReactNode } from "react";
-import { Modal, Text, TouchableOpacity, View } from "react-native";
+import {
+  Modal,
+  StyleProp,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from "react-native";
 
 const MModal: FC<{
   children: ReactNode;
@@ -10,6 +17,14 @@ const MModal: FC<{
   customTitle?: ReactNode;
   showFooter?: boolean;
   onSubmit?: () => void;
+  footer?: {
+    okText?: string;
+    cancel?: string;
+    wrapperStyle?: StyleProp<ViewStyle>;
+  };
+  styles?:{
+    contentWrapper?:StyleProp<ViewStyle>;
+  }
 }> = ({
   children,
   onHide,
@@ -18,6 +33,8 @@ const MModal: FC<{
   customTitle,
   showFooter = true,
   onSubmit,
+  footer,
+  styles
 }) => {
   return (
     <Modal
@@ -43,6 +60,8 @@ const MModal: FC<{
             alignItems: "center",
             justifyContent: "center",
             width: "100%",
+            // ...classes?.contentWrapper
+          
           }}
         >
           {showTitle && (
