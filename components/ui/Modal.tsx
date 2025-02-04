@@ -22,9 +22,9 @@ const MModal: FC<{
     cancel?: string;
     wrapperStyle?: StyleProp<ViewStyle>;
   };
-  styles?:{
-    contentWrapper?:StyleProp<ViewStyle>;
-  }
+  styles?: {
+    contentWrapper?: StyleProp<ViewStyle>;
+  };
 }> = ({
   children,
   onHide,
@@ -34,7 +34,7 @@ const MModal: FC<{
   showFooter = true,
   onSubmit,
   footer,
-  styles
+  styles,
 }) => {
   return (
     <Modal
@@ -53,16 +53,17 @@ const MModal: FC<{
         }}
       >
         <View
-          style={{
-            padding: 10,
-            backgroundColor: "white",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-            // ...classes?.contentWrapper
-          
-          }}
+          style={[
+            {
+              padding: 10,
+              backgroundColor: "white",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+            },
+            styles?.contentWrapper,
+          ]}
         >
           {showTitle && (
             <View

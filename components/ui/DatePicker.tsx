@@ -3,6 +3,7 @@ import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import MModal from "./Modal";
 import { Calendar } from "react-native-calendars";
 import { ThemedText } from "../ThemedText";
+import { AntDesign } from "@expo/vector-icons";
 
 const DatePicker: FC<{
   onChange?: (v?: string) => void;
@@ -12,6 +13,7 @@ const DatePicker: FC<{
 }> = ({ onChange, value, placeholder }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState<null | string>("");
+  const currentDate = new Date().toISOString().split("T")[0];
   return (
     <>
       <TouchableOpacity
@@ -25,9 +27,16 @@ const DatePicker: FC<{
           padding: 12,
           paddingTop: 8,
           paddingBottom: 8,
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
-        <Text style={{ color: "#ccc" }}>{selectedDate ?? "Selecte Date"}</Text>
+        <Text style={{ color: value ? "#000" : "#ccc" }}>
+          {value ?? "Selecte Date"}
+        </Text>
+        <AntDesign name="calendar" size={16} color={value ? "#000" : "#ccc"} />
       </TouchableOpacity>
       <MModal
         showModal={showModal}
@@ -36,8 +45,10 @@ const DatePicker: FC<{
         }}
         showFooter={false}
         showTitle={false}
+        styles={{ contentWrapper: { width: "auto", paddingBottom: 0 } }}
       >
         <Calendar
+          minDate={currentDate}
           style={{
             width: "100%",
             borderWidth: 1,
@@ -45,9 +56,11 @@ const DatePicker: FC<{
           }}
           onDayPress={(day: any) => {
             setSelectedDate(day.dateString);
+            // onChange?.(day.dateString ?? "");
+            // setShowModal(false);
           }}
           markedDates={{
-            [selectedDate ?? '']: {
+            [selectedDate ?? ""]: {
               selected: true,
               disableTouchEvent: true,
               selectedDotColor: "orange",
@@ -59,10 +72,13 @@ const DatePicker: FC<{
           style={{
             display: "flex",
             flexDirection: "row",
-            justifyContent: "flex-end",
-            width: "100%",
+            // justifyContent: "flex-end",
+            // width: "100%",
             gap: 10,
-            padding: 10,
+            padding: 5,
+            backgroundColor: "white",
+            // width:"100%",
+            // just
           }}
         >
           <TouchableOpacity
@@ -74,7 +90,7 @@ const DatePicker: FC<{
           <TouchableOpacity
             activeOpacity={1}
             onPress={() => {
-              onChange?.(selectedDate ?? '');
+              onChange?.(selectedDate ?? "");
               setShowModal(false);
             }}
           >

@@ -14,6 +14,7 @@ const CalendarScreen: FC = () => {
     dateTo?: string;
     fromFood?: string[];
     toFood?: string[];
+    currentDateFood?: string[];
   }>({});
   return (
     <View style={styles?.calendarWrapper}>
@@ -36,8 +37,13 @@ const CalendarScreen: FC = () => {
         showModal={showModal}
         onHide={() => setShowModal(false)}
       >
-        <Text>Select 21/02/2024 Food Schedule.</Text>
-        <FoodTimes onClick={() => setShowModal(true)} />
+        <Text>Select {selected} Food Schedule.</Text>
+        <FoodTimes
+          onClick={(val) => {
+            setModalValues((prv) => ({ ...prv, currentDateFood: val }));
+          }}
+          values={modalValues?.currentDateFood}
+        />
 
         <View
           style={{
@@ -69,21 +75,49 @@ const CalendarScreen: FC = () => {
             }}
           ></View>
         </View>
-        <DatePicker
-          value={modalValues?.dateFrom}
-          onChange={(val) =>
-            setModalValues((prv) => ({ ...prv, dateFrom: val }))
-          }
-          placeholder="From Date"
-        />
-        <FoodTimes onClick={() => setShowModal(true)} />
-
-        <DatePicker
-          value={modalValues?.dateFrom}
-          onChange={(val) => setModalValues((prv) => ({ ...prv, dateTo: val }))}
-          placeholder="To Date"
-        />
-        <FoodTimes onClick={() => setShowModal(true)} />
+        <View
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 5,
+          }}
+        >
+          <View>
+            <DatePicker
+              value={modalValues?.dateFrom}
+              onChange={(val) =>
+                setModalValues((prv) => ({ ...prv, dateFrom: val }))
+              }
+              placeholder="From Date"
+            />
+          </View>
+          <View>
+            <FoodTimes
+              onClick={(val) => {
+                setModalValues((prv) => ({ ...prv, fromFood: val }));
+              }}
+              values={modalValues?.fromFood}
+            />
+          </View>
+          <View>
+            <DatePicker
+              value={modalValues?.dateTo}
+              onChange={(val) =>
+                setModalValues((prv) => ({ ...prv, dateTo: val }))
+              }
+              placeholder="To Date"
+            />
+          </View>
+          <View>
+            <FoodTimes
+              onClick={(val) => {
+                setModalValues((prv) => ({ ...prv, toFood: val }));
+              }}
+              values={modalValues?.toFood}
+            />
+          </View>
+        </View>
       </MModal>
     </View>
   );
