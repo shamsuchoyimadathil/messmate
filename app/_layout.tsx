@@ -7,20 +7,15 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import "react-native-reanimated";
-
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Text, View } from "react-native";
-import { useRoute } from '@react-navigation/native';
+import { usePathname } from "expo-router";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  // const route = useRoute(); 
-  // console.log({route})
-  // const currentScreenTitle = route.path;
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
@@ -41,21 +36,8 @@ export default function RootLayout() {
       <Stack>
         <Stack.Screen
           name="(tabs)"
-          // options={{
-          //   // header: (v) => {
-          //   //   console.log({ v });
-          //   //   return <View>test</View>;
-          //   // },
-            
-          // }}
           options={{
-            header: () => (
-              <View style={{ padding: 20, paddingTop:40, backgroundColor: '#5C7285' }}>
-                <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>
-                  {/* {currentScreenTitle} */}
-                </Text>
-              </View>
-            ),
+            header: () => <Header />,
           }}
         />
         <Stack.Screen name="+not-found" />
@@ -64,3 +46,27 @@ export default function RootLayout() {
     </ThemeProvider>
   );
 }
+
+const Header: FC = () => {
+  
+  const headerTitle: any = {
+    "/": "Home",
+    "/calendar": "Calendar",
+  };
+
+  const pathName = usePathname();
+
+  return (
+    <View
+      style={{
+        padding: 20,
+        paddingTop: 40,
+        backgroundColor: "#5C7285",
+      }}
+    >
+      <Text style={{ color: "white", fontSize: 18, fontWeight: "bold" }}>
+        {headerTitle[pathName]}
+      </Text>
+    </View>
+  );
+};
